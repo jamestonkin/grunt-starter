@@ -16,7 +16,6 @@ save it as a dependency in the package.json file.
 * `npm install grunt-contrib-jshint --save-dev`
 * `npm install jshint-stylish --save-dev`
 * `npm install grunt-contrib-watch --save-dev`
-* `npm install grunt-contrib-sass --save-dev`
 * `npm install matchdep --save-dev`
 * `npm install copy --save-dev`
 * `npm install grunt-contrib-copy --save-dev`
