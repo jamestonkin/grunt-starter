@@ -18,6 +18,10 @@ save it as a dependency in the package.json file.
 * `npm install grunt-contrib-watch --save-dev`
 * `npm install grunt-contrib-sass --save-dev`
 * `npm install matchdep --save-dev`
+* `npm install copy --save-dev`
+* `npm install grunt-contrib-copy --save-dev`
+* `npm install jquery --save-dev`
+* `npm install bootstrap --save-dev`
 
 After each install - your package.json file will update
 
@@ -31,39 +35,44 @@ The grunt install will create a node_modules folder. This will become the locati
 
 ### Sample Gruntfile.js
 ```javascript
+
 module.exports = function(grunt) {
   grunt.initConfig({
     jshint: {
       files: ['../javascripts/**/*.js'], //location of javascript files
       options: {
-        predef: ["document", "console", "$" ], //allows for predefined things not found in js
-        esnext: true, //allows for ES6 
+        predef: ["document", "console", "$", "XMLHttpRequest", "alert", "event", "this"], //allows for predefined things not found in js
+        esnext: true, //allows for ES6
         globalstrict: true,
-        globals: {"Sandwich":true} //name value pairs, allows to define global vars used in many files.
+        globals: {"CarLot": true, "articles": true, "input": true} //name value pairs, allows to define global vars used in many files.
       }
     },
-    sass: { //setup sass compilation
-      dist: {
-        files: {
-          '../css/styles.css': '../sass/styles.scss'
-        }
+    copy: { //for bootstrap and jquery - only need to do the first time.
+      bootstrap: {
+        expand: true,
+        cwd: 'node_modules/bootstrap/dist',
+        src: ['**'],
+        dest: '../dist'
+      },
+      jquery: {
+        expand: true,
+        cwd: 'node_modules/jquery/dist',
+        src: ['jquery.min.js'],
+        dest: '../dist'
       }
     },
     watch: { //automatically watch for changes
       javascripts: {
-        files: ['../javascripts/**/*.js'], 
+        files: ['../javascripts/**/*.js'],
         tasks: ['jshint']
-      },
-      sass: {
-        files: ['../sass/**/*.scss'],
-        tasks: ['sass']
       }
     }
   });
 
   require('matchdep').filterDev('grunt-*').forEach(grunt.loadNpmTasks);
-  grunt.registerTask('default', ['jshint', 'sass', 'watch']);
+  grunt.registerTask('default', ['copy', 'jshint', 'watch']);
 };
+
 
 ```
 ## Start From boilerplate
