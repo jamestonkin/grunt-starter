@@ -43,7 +43,7 @@ module.exports = function(grunt) {
         predef: ["document", "console", "$", "XMLHttpRequest", "alert", "event", "this"], //allows for predefined things not found in js
         esnext: true, //allows for ES6
         globalstrict: true,
-        globals: {"CarLot": true, "articles": true, "input": true} //name value pairs, allows to define global vars used in many files.
+        globals: {} //name value pairs, allows to define global vars used in many files.
       }
     },
     copy: { //for bootstrap and jquery - only need to do the first time.
