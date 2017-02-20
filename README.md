@@ -19,8 +19,14 @@ save it as a dependency in the package.json file.
 * `npm install matchdep --save-dev`
 * `npm install copy --save-dev`
 * `npm install grunt-contrib-copy --save-dev`
+* `npm install sass --save-dev`
+* `npm install grunt-contrib-sass --save-dev`
 * `npm install jquery --save-dev`
 * `npm install bootstrap --save-dev`
+* `npm install angular --save-dev`
+* `npm install angular-route --save-dev`
+* `npm install angularfire --save-dev`
+* `npm install firebase --save-dev`
 
 After each install - your package.json file will update
 
@@ -36,15 +42,16 @@ The grunt install will create a node_modules folder. This will become the locati
 ```javascript
 
 module.exports = function(grunt) {
+
   grunt.initConfig({
     jshint: {
-      files: ['../javascripts/**/*.js'], //location of javascript files
       options: {
-        predef: ["document", "console", "$", "XMLHttpRequest", "alert", "event", "this"], //allows for predefined things not found in js
-        esnext: true, //allows for ES6
+        predef: [ "document", "console", "$", "$scope" ],
+        esnext: true,
         globalstrict: true,
-        globals: {} //name value pairs, allows to define global vars used in many files.
-      }
+        globals: {"angular": true, "app": true}
+      },
+      files: ['../app/**/*.js']
     },
     copy: { //for bootstrap and jquery - only need to do the first time.
       bootstrap: {
@@ -60,17 +67,30 @@ module.exports = function(grunt) {
         dest: '../dist'
       }
     },
-    watch: { //automatically watch for changes
+    sass: {
+      dist: {
+        files: {
+          '../css/main.css': '../sass/main.scss'
+        }
+      }
+    },
+    watch: {
       javascripts: {
-        files: ['../javascripts/**/*.js'],
+        files: ['../app/**/*.js'],
         tasks: ['jshint']
+      },
+      sass: {
+        files: ['../sass/**/*.scss'],
+        tasks: ['sass']
       }
     }
   });
 
   require('matchdep').filterDev('grunt-*').forEach(grunt.loadNpmTasks);
-  grunt.registerTask('default', ['copy', 'jshint', 'watch']);
+
+  grunt.registerTask('default', ['copy', 'jshint', 'sass', 'watch']);
 };
+
 
 
 ```
